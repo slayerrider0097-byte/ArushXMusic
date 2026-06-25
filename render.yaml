@@ -1,0 +1,22 @@
+# ==========================================================
+# Copyright (c) 2026 Arush
+# All Rights Reserved.
+#
+# Project      : Arush API Telegram Music Bot
+# Powered By   : Arush
+# Type         : API Based Telegram Music Bot
+#
+# Bot          : @ArushApibot
+# Channel      : https://t.me/arush
+# GitHub       : https://github.com/Arush
+#
+# Unauthorized copying, modification, or redistribution
+# of this source code without permission is prohibited.
+# ==========================================================
+services:
+  - type: worker
+    name: elevenmusic
+    runtime: python
+    buildCommand: pip install -U -r requirements.txt
+    startCommand: python -m Elevenyts
+    plan: free
