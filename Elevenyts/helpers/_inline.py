@@ -189,7 +189,7 @@ class Inline:
             ],
             [
                 self.ikb(text=lang["help"], callback_data="help", style=ButtonStyle.SUCCESS),
-                self.ikb(text="ꜱᴏᴜʀᴄᴇ", url="https://github.com/Arush/Arush Music", style=ButtonStyle.SUCCESS),
+                self.ikb(text="Dad Bol", url="https://files.catbox.moe/9fl6u6.jpg", style=ButtonStyle.SUCCESS),
             ],
             [
                 self.ikb(text=lang["support"], url=config.SUPPORT_CHAT, style=ButtonStyle.PRIMARY),
