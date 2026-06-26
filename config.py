@@ -68,10 +68,10 @@ class Config:
         self.COOKIES_URL: List[str] = self._parse_cookies()
 
         # Images
-        self.DEFAULT_THUMB: str = getenv("DEFAULT_THUMB", "https://files.catbox.moe/zlmv6v.png")
-        self.PING_IMG: str = getenv("PING_IMG", "https://files.catbox.moe/zlmv6v.png")
-        self.START_IMG: str = getenv("START_IMG", "https://files.catbox.moe/zlmv6v.png")
-        self.RADIO_IMG: str = getenv("RADIO_IMG", "https://files.catbox.moe/zlmv6v.png")
+        self.DEFAULT_THUMB: str = getenv("DEFAULT_THUMB", "https://files.catbox.moe/o9auld.png")
+        self.PING_IMG: str = getenv("PING_IMG", "https://files.catbox.moe/rcyuem.png")
+        self.START_IMG: str = getenv("START_IMG", "https://files.catbox.moe/an9647.png")
+        self.RADIO_IMG: str = getenv("RADIO_IMG", "https://files.catbox.moe/brg0ky.png")
 
         # Moderation
         self.EXCLUDED_USERNAMES: List[str] = getenv("EXCLUDED_USERNAMES", "").split()
