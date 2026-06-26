@@ -125,11 +125,12 @@ class Thumbnail:
             if os.path.exists(output):
                 return output
 
-            fixed_thumb = "cache/legend_arush_dp.png"
-            if os.path.isfile(fixed_thumb):
-                temp = fixed_thumb
-            else:
-                await self.save_thumb(temp, song.thumbnail)
+            fixed_thumb = "Elevenyts/helpers/legend_arush_dp.png"
+
+if os.path.isfile(fixed_thumb):
+    temp = fixed_thumb
+else:
+    await self.save_thumb(temp, song.thumbnail)
 
             return await asyncio.get_event_loop().run_in_executor(
                 None,
