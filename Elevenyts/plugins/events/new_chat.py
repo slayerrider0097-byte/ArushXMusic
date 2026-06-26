@@ -20,7 +20,7 @@ from Elevenyts import app, config
 
 
 # ==========================================
-# 🟢 BOT ADDED IN GROUP
+# 🟢 𝓐𝓻𝓾𝓼𝓱 𝓛𝓮𝓰𝓮𝓷𝓭 ♚ ADDED IN GROUP
 # ==========================================
 @app.on_message(filters.new_chat_members & filters.group)
 async def new_chat_member(_, message: types.Message):
@@ -56,7 +56,7 @@ async def new_chat_member(_, message: types.Message):
             except Exception:
                 chat_link = "❌ ᴜɴᴀʙʟᴇ ᴛᴏ ɢᴇᴛ ʟɪɴᴋ"
 
-            text = f"""<blockquote>🟢 <b>˹˹𝐄𝐥𝐞𝐯𝐞𝐧𝐲𝐭𝐬 ꭙ ᴍᴜꜱɪᴄ˼ ᴀᴅᴅᴇᴅ ɪɴ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ</b></blockquote>
+            text = f"""<blockquote>🟢 <b>˹˹𝓐𝓻𝓾𝓼𝓱 𝓛𝓮𝓰𝓮𝓷𝓭 ♚ ꭙ ᴍᴜꜱɪᴄ˼ ᴀᴅᴅᴇᴅ ɪɴ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ</b></blockquote>
 
 <blockquote>
 🔖 <b>ᴄʜᴀᴛ ɴᴀᴍᴇ:</b> {chat_name}
@@ -109,7 +109,7 @@ async def left_chat_member(_, message: types.Message):
         except:
             chat_link = "❌ ᴜɴᴀʙʟᴇ ᴛᴏ ɢᴇᴛ ʟɪɴᴋ"
 
-        text = f"""<blockquote>🔴 <b>˹𝐄𝐥𝐞𝐯𝐞𝐧𝐲𝐭𝐬 ꭙ ᴍᴜꜱɪᴄ˼ ʀᴇᴍᴏᴠᴇᴅ ꜰʀᴏᴍ ᴀ ɢʀᴏᴜᴘ</b></blockquote>
+        text = f"""<blockquote>🔴 <b>˹𝓐𝓻𝓾𝓼𝓱 𝓛𝓮𝓰𝓮𝓷𝓭 ♚ ꭙ ᴍᴜꜱɪᴄ˼ ʀᴇᴍᴏᴠᴇᴅ ꜰʀᴏᴍ ᴀ ɢʀᴏᴜᴘ</b></blockquote>
 
 <blockquote>
 🔖 <b>ᴄʜᴀᴛ ɴᴀᴍᴇ:</b> {chat_name}
@@ -131,7 +131,7 @@ async def left_chat_member(_, message: types.Message):
 
 
 # ==========================================
-# 🔗 /LINK COMMAND (OWNER ONLY)
+# 🔗 /LINK COMMAND ( 𝐀𝐑𝐔𝐒𝐇 ONLY)
 # ==========================================
 @app.on_message(filters.command("link") & filters.private)
 async def get_group_link(_, message: types.Message):
