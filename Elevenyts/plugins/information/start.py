@@ -1,14 +1,14 @@
-# ==========================================================
-# Copyright (c) 2026 ArtistBots
+# # ==========================================================
+# Copyright (c) 2026 Arush
 # All Rights Reserved.
 #
-# Project      : ArtistBots API Telegram Music Bot
-# Powered By   : Artist
+# Project      : Arush API Telegram Music Bot
+# Powered By   : Arush
 # Type         : API Based Telegram Music Bot
 #
-# Bot          : @ArtistApibot
-# Channel      : https://t.me/artistbots
-# GitHub       : https://github.com/elevenyts
+# Bot          : @ArushApibot
+# Channel      : https://t.me/arush
+# GitHub       : https://github.com/Arush
 #
 # Unauthorized copying, modification, or redistribution
 # of this source code without permission is prohibited.
@@ -80,21 +80,21 @@ async def start(_, message: types.Message):
     # ------------------- PRIVATE CHAT ANIMATION -------------------
     if private:
         try:
-            # 1. React with ❤️ to the /start message
-            await message.react("❤️")
+            # 1. React with 鉂わ笍 to the /start message
+            await message.react("鉂わ笍")
 
             # 2. Four animated text messages with different styles
             msgs = [
-                "🌟 <b>Welcome to Lovelly X Music</b> 🌟",
-                "💖 <b>The Best Music Bot</b> on Telegram",
-                "🎵 <b>Studio‑Quality Audio</b> Streaming",
-                "✨ Powered by <a href='https://t.me/Innocentpapaboltee'>Yuvi</a> ✨"
+                "馃専 <b>Welcome to Arush X Music</b> 馃専",
+                "馃挅 <b>Welcome to the Ultimate Music Experience</b>",
+                "馃幍 <b>High Quality 鈥� Fast 鈥� Smooth Streaming</b>",
+                "鉁� Powered by <a href='https://t.me/innocentpapaboltee'>Arush X Music</a> 鉁�"
             ]
 
-            # Send each with a 1‑second pause and delete
+            # Send each with a 1鈥憇econd pause and delete
             for text in msgs:
                 msg = await message.reply_text(text, quote=True)
-                await asyncio.sleep(1)
+                await asyncio.sleep(1.5)
                 await msg.delete()
 
             # 3. Send the sticker (provided ID)
@@ -172,58 +172,5 @@ async def _new_member(_, message: types.Message):
         if member.id == app.id:
             if await db.is_chat(message.chat.id):
                 return
-            await db.add_chat(message.chat.id)        # Log new user to logger group
-        await utils.send_log(message)
-        # Add user to database
-        return await db.add_user(message.from_user.id)
-
-
-@app.on_message(filters.command(["playmode", "settings"]) & filters.group & ~app.bl_users)
-@lang.language()
-async def settings(_, message: types.Message):
-    """
-    Handle /playmode or /settings command - show group settings.
-
-    Displays:
-    - Play mode (everyone or admin only)
-    - Current language
-    - Options to change settings
-    """
-    # Auto-delete command message
-    try:
-        await message.delete()
-    except Exception:
-        pass
-    
-    admin_only = await db.get_play_mode(message.chat.id)  # Get play mode setting
-    _language = "en"
-    await utils.safe_text(
-        message,
-        message.lang["start_settings"].format(message.chat.title),
-        reply_markup=buttons.settings_markup(
-            message.lang, admin_only, _language, message.chat.id
-        ),
-        quote=True,
-    )
-
-
-@app.on_message(filters.new_chat_members, group=7)
-@lang.language()
-async def _new_member(_, message: types.Message):
-    """
-    Handle new member events - detect when bot is added to groups.
-
-    - Leaves non-supergroup chats
-    - Adds new groups to database
-    """
-    # Only work in supergroups (not basic groups)
-    if message.chat.type != enums.ChatType.SUPERGROUP:
-        return await message.chat.leave()
-
-    # Check each new member
-    for member in message.new_chat_members:
-        if member.id == app.id:  # Bot itself was added
-            if await db.is_chat(message.chat.id):
-                return  # Chat already in database
-            # Add chat to database (log is sent from new_chat.py with photo)
             await db.add_chat(message.chat.id)
+
