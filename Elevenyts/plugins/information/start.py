@@ -80,18 +80,18 @@ async def start(_, message: types.Message):
     # ------------------- PRIVATE CHAT ANIMATION -------------------
     if private:
         try:
-            # 1. React with 鉂わ笍 to the /start message
-            await message.react("鉂わ笍")
+            # 1. React with é‰‚ã‚ç¬ to the /start message
+            await message.react("é‰‚ã‚ç¬")
 
             # 2. Four animated text messages with different styles
             msgs = [
-                "馃専 <b>Welcome to Arush X Music</b> 馃専",
-                "馃挅 <b>Welcome to the Ultimate Music Experience</b>",
-                "馃幍 <b>High Quality 鈥� Fast 鈥� Smooth Streaming</b>",
-                "鉁� Powered by <a href='https://t.me/innocentpapaboltee'>Arush X Music</a> 鉁�"
+                "é¦ƒå°‚ <b>Welcome to Arush X Music</b> é¦ƒå°‚",
+                "é¦ƒæŒ… <b>Welcome to the Ultimate Music Experience</b>",
+                "é¦ƒå¹ <b>High Quality éˆ¥ï¿½ Fast éˆ¥ï¿½ Smooth Streaming</b>",
+                "é‰ï¿½ Powered by <a href='https://t.me/innocentpapaboltee'>Arush X Music</a> é‰ï¿½"
             ]
 
-            # Send each with a 1鈥憇econd pause and delete
+            # Send each with a 1éˆ¥æ†‡econd pause and delete
             for text in msgs:
                 msg = await message.reply_text(text, quote=True)
                 await asyncio.sleep(1.5)
@@ -173,4 +173,4 @@ async def _new_member(_, message: types.Message):
             if await db.is_chat(message.chat.id):
                 return
             await db.add_chat(message.chat.id)
-
+                
