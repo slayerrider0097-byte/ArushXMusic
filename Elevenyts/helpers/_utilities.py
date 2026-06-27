@@ -15,8 +15,10 @@
 # ==========================================================
 
 import re
+import os
+from pathlib import Path
 from pyrogram import enums, errors, types
-from Elevenyts import app, config
+from Elevenyts import app, config, logger
 
 
 class Utilities:
@@ -160,3 +162,34 @@ class Utilities:
             return True
         except errors.RPCError:
             return False
+
+    # ========== NEW HELPER METHODS ==========
+
+    def get_cookie_file_path(self) -> str | None:
+        """
+        Get the configured cookie file path and verify its existence.
+        Returns the path if the file exists, otherwise logs a warning and returns None.
+        """
+        cookie_path = getattr(config, "COOKIE_FILE", "cookies.txt")
+        if not cookie_path:
+            logger.warning("🍪 COOKIE_FILE is not set in config.")
+            return None
+
+        # Expand user path if starts with ~
+        if cookie_path.startswith("~"):
+            cookie_path = os.path.expanduser(cookie_path)
+
+        if not os.path.isfile(cookie_path):
+            logger.warning(f"🍪 Cookie file not found at: {cookie_path}")
+            return None
+
+        # Check if the file is readable and has content
+        try:
+            if os.path.getsize(cookie_path) < 50:
+                logger.warning(f"🍪 Cookie file exists but is too small: {cookie_path}")
+                return None
+            logger.info(f"🍪 Cookie file found: {cookie_path}")
+            return cookie_path
+        except Exception as e:
+            logger.error(f"🍪 Error accessing cookie file: {e}")
+            return None
