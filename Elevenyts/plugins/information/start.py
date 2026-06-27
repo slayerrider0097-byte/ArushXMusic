@@ -1,18 +1,20 @@
 # ==========================================================
-# Copyright (c) 2026 Arush
+# Copyright (c) 2026 ArtistBots
 # All Rights Reserved.
 #
-# Project      : Arush API Telegram Music Bot
-# Powered By   : Arush
+# Project      : ArtistBots API Telegram Music Bot
+# Powered By   : Artist
 # Type         : API Based Telegram Music Bot
 #
-# Bot          : @ArushApibot
-# Channel      : https://t.me/arush
-# GitHub       : https://github.com/Arush
+# Bot          : @ArtistApibot
+# Channel      : https://t.me/artistbots
+# GitHub       : https://github.com/elevenyts
 #
 # Unauthorized copying, modification, or redistribution
 # of this source code without permission is prohibited.
 # ==========================================================
+
+import asyncio
 
 from pyrogram import enums, errors, filters, types
 
@@ -24,7 +26,6 @@ from Elevenyts.helpers import buttons, utils
 @lang.language()
 async def _help(_, m: types.Message):
     """Handle /help command in private chats - shows help menu with image."""
-    # Auto-delete command message
     try:
         await m.delete()
     except Exception:
@@ -32,13 +33,12 @@ async def _help(_, m: types.Message):
     
     try:
         await m.reply_photo(
-            photo=config.START_IMG,  # Use same image as start command
+            photo=config.START_IMG,
             caption=m.lang["help_menu"],
             reply_markup=buttons.help_markup(m.lang),
             quote=True,
         )
     except Exception:
-        # Fallback to text if photo fails
         await m.reply_text(
             text=m.lang["help_menu"],
             reply_markup=buttons.help_markup(m.lang),
@@ -52,7 +52,9 @@ async def start(_, message: types.Message):
     """
     Handle /start command - welcome message for users.
 
-    - In private chat: Shows welcome message with inline buttons
+    - In private chat: Shows animation (heart reaction, 4 text messages
+      that vanish one by one, sticker that stays 4 sec then vanishes,
+      then main welcome)
     - In group chat: Shows short welcome message
     - Adds new users to database
     - Sends log to logger group for new users
@@ -64,22 +66,51 @@ async def start(_, message: types.Message):
         except Exception:
             pass
     
-    # Skip if message from channel or anonymous admin
     if not message.from_user:
         return
 
-    # Check if user is blacklisted
     if message.from_user.id in app.bl_users and message.from_user.id not in db.notified:
         return await message.reply_text(message.lang["bl_user_notify"])
 
-    # If /start help, show help menu
     if len(message.command) > 1 and message.command[1] == "help":
         return await _help(_, message)
 
-    # Determine if chat is private or group
     private = message.chat.type == enums.ChatType.PRIVATE
 
-    # Choose appropriate welcome message
+    # ------------------- PRIVATE CHAT ANIMATION -------------------
+    if private:
+        try:
+            # 1. React with ❤️ to the /start message
+            await message.react("❤️")
+
+            # 2. Four animated text messages with different styles
+            msgs = [
+                "🌟 <b>Welcome to Lovelly X Music</b> 🌟",
+                "💖 <b>The Best Music Bot</b> on Telegram",
+                "🎵 <b>Studio‑Quality Audio</b> Streaming",
+                "✨ Powered by <a href='https://t.me/Innocentpapaboltee'>Yuvi</a> ✨"
+            ]
+
+            # Send each with a 1‑second pause and delete
+            for text in msgs:
+                msg = await message.reply_text(text, quote=True)
+                await asyncio.sleep(1)
+                await msg.delete()
+
+            # 3. Send the sticker (provided ID)
+            sticker_msg = await message.reply_sticker(
+                "CAACAgQAAxkBAAEfyZlqP18UrjI4J46VayG5TkwWGiDdOQACfBIAAs37OFEtwgAB7hLz92k8BA"
+            )
+
+            # Wait 4 seconds, then delete the sticker
+            await asyncio.sleep(4)
+            await sticker_msg.delete()
+
+        except Exception as e:
+            # Log error but continue to main message
+            print(f"Start animation error: {e}")
+
+    # ------------------- MAIN WELCOME MESSAGE -------------------
     _text = (
         message.lang["start_pm"].format(message.from_user.first_name, app.name)
         if private
@@ -95,7 +126,6 @@ async def start(_, message: types.Message):
             quote=not private,
         )
     except errors.ChatSendPhotosForbidden:
-        # If photos are not allowed, send text only
         await message.reply_text(
             text=_text,
             reply_markup=key,
@@ -105,8 +135,44 @@ async def start(_, message: types.Message):
     # For private chats, add user to database if new
     if private:
         if await db.is_user(message.from_user.id):
-            return  # User already exists, no need to add
-        # Log new user to logger group
+            return
+        await utils.send_log(message)
+        return await db.add_user(message.from_user.id)
+
+
+@app.on_message(filters.command(["playmode", "settings"]) & filters.group & ~app.bl_users)
+@lang.language()
+async def settings(_, message: types.Message):
+    """Handle /playmode or /settings command - show group settings."""
+    try:
+        await message.delete()
+    except Exception:
+        pass
+    
+    admin_only = await db.get_play_mode(message.chat.id)
+    _language = "en"
+    await utils.safe_text(
+        message,
+        message.lang["start_settings"].format(message.chat.title),
+        reply_markup=buttons.settings_markup(
+            message.lang, admin_only, _language, message.chat.id
+        ),
+        quote=True,
+    )
+
+
+@app.on_message(filters.new_chat_members, group=7)
+@lang.language()
+async def _new_member(_, message: types.Message):
+    """Handle new member events - detect when bot is added to groups."""
+    if message.chat.type != enums.ChatType.SUPERGROUP:
+        return await message.chat.leave()
+
+    for member in message.new_chat_members:
+        if member.id == app.id:
+            if await db.is_chat(message.chat.id):
+                return
+            await db.add_chat(message.chat.id)        # Log new user to logger group
         await utils.send_log(message)
         # Add user to database
         return await db.add_user(message.from_user.id)
