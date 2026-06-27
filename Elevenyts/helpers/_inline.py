@@ -177,26 +177,49 @@ class Inline:
         )
 
     def start_key(
-        self, lang: dict, private: bool = False
-    ) -> types.InlineKeyboardMarkup:
-        rows = [
-            [
-                self.ikb(
-                    text=lang["add_me"],
-                    url=f"https://t.me/{app.username}?startgroup=true",
-                    style=ButtonStyle.PRIMARY,
-                )
-            ],
-            [
-                self.ikb(text=lang["help"], callback_data="help", style=ButtonStyle.SUCCESS),
-                self.ikb(text="Dad Bol", url="https://files.catbox.moe/9fl6u6.jpg", style=ButtonStyle.SUCCESS),
-            ],
-            [
-                self.ikb(text=lang["support"], url=config.SUPPORT_CHAT, style=ButtonStyle.PRIMARY),
-                self.ikb(text=lang["channel"], url=config.SUPPORT_CHANNEL, style=ButtonStyle.PRIMARY),
-            ],
-        ]
-        return self.ikm(rows)
+    self, lang: dict, private: bool = False
+) -> types.InlineKeyboardMarkup:
+    rows = [
+        [
+            self.ikb(
+                text=lang["add_me"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+                style=ButtonStyle.PRIMARY,
+            )
+        ],
+        [
+            self.ikb(
+                text=lang["help"],
+                callback_data="help",
+                style=ButtonStyle.SUCCESS,
+            ),
+            self.ikb(
+                text="📂 Source",
+                url="https://files.catbox.moe/7hswa2.png",
+                style=ButtonStyle.SUCCESS,
+            ),
+        ],
+        [
+            self.ikb(
+                text=lang["support"],
+                url=config.SUPPORT_CHAT,
+                style=ButtonStyle.PRIMARY,
+            ),
+            self.ikb(
+                text=lang["channel"],
+                url=config.SUPPORT_CHANNEL,
+                style=ButtonStyle.PRIMARY,
+            ),
+        ],
+        [
+            self.ikb(
+                text="👑 Powered By Arush",
+                url="https://t.me/Innocentpapaboltee",
+                style=ButtonStyle.DANGER,
+            ),
+        ],
+    ]
+    return self.ikm(rows)
 
     def yt_key(self, link: str) -> types.InlineKeyboardMarkup:
         return self.ikm(
