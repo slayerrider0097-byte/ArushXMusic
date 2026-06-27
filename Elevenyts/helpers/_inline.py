@@ -176,7 +176,8 @@ class Inline:
             ]
         )
 
-        def start_key(
+        
+    def start_key(
         self, lang: dict, private: bool = False
     ) -> types.InlineKeyboardMarkup:
         rows = [
@@ -229,4 +230,4 @@ class Inline:
                     self.ikb(text="ᴏᴘᴇɴ ɪɴ ʏᴏᴜᴛᴜʙᴇ", url=link, style=ButtonStyle.PRIMARY),
                 ],
             ]
-        )
+                            )
